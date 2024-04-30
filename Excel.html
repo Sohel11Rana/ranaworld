@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Style Attribute Experiment</title>
+</head>
+<body>
+<div>
+<div 
+style="width:1500px; height:20000px; background-color:
+pink; color: darkred; float: left; margin: 5px; padding:
+5px;">
+<!-------------------  Excel Basic Code ----------------------------->
+
+<p>Excel Basic Code </p>
+
+<xmp>
+
+Excel Shortcut keys link:
+https://www.howtoexcel.org/keyboard-shortcuts/
+https://www.ablebits.com/office-addins-blog/30-most-useful-excel-keyboard-shortcuts/
+https://www.excelcampus.com/shortcuts/
+
+
+1. How to SUM Ignore N/A in Excel
+
+https://www.exceldemy.com/sum-ignore-na/
+https://www.extendoffice.com/documents/excel/2694-excel-sum-without-with-n-a.html
+
+A: Sum without #n/a: =SUMIF(A2:C6,"<>#n/a") + Enter key
+
+B: Sum with #n/a: =SUM(IF(ISNA(A2:C6),0,A2:C6)) + Ctrl + Shift + Enter keys together.
+
+
+
+
+2. How to use count, search & sumproduct in Excel
+
+=COUNT(K7:K1048576)
+=COUNT(SEARCH("-B",$G1:$G5000))
+=COUNT(SEARCH($J11,$C$2:$C$5001)*SEARCH("-A",$B$2:$B$5001)) 
+=SUMPRODUCT($D$3:$D$50001*($C$3:$C$50001=G2))
+=COUNT(SEARCH(J13,$E$2:$E$10154))
+
+
+
+
+3. How to use sort,today,concat,concatenate,count 
+
+=SORT(L8:L107)
+=TODAY()-1
+=CONCAT(L5,"0-P")
+=CONCAT(P12,"B")
+=CONCAT(LEFT(B6,4),"0")
+=CONCATENATE(L3," (",L4,")")
+=CONCATENATE(P10," (A+B)")
+
+
+
+
+4. How to use let,vlookup,hlookup,xlookup,indexmatch,
+
+=LET(lv,XLOOKUP(N5,'D:\Download File\Oct-23\[112.xlsx]Sheet1'!$E:$E,'D:\Download File\Oct-23\[112.xlsx]Sheet1'!$D:$D),IF(lv="","",lv))
+
+=XLOOKUP(H4,B5:B9,E5:E9)
+
+=VLOOKUP(H8,'E:\Users\Aristo\Desktop\08.11.23\[MarketHierarchy.xls]sheet1'!$B$2:$D$614,3,0)
+
+=HLOOKUP(H8,'E:\Users\Aristo\Desktop\08.11.23\[MarketHierarchy.xls]sheet1'!$B$2:$D$614,3,0)
+
+=INDEX('D:\Download File\Oct-23\[112.xlsx]Sheet1 (2)'!$G$2:$G$422,MATCH(M5,'D:\Download File\Oct-23\[112.xlsx]Sheet1 (2)'!$E$2:$E$422,0))
+
+=CONCATENATE("> ",Q8,", ","ID-",R8,", Tr.Code: ",P8)
+LET(lv,XLOOKUP(C4,'Master (2)'!$G:$G,'Master (2)'!$C:$C),IF(lv="","",lv))
+
+=IFNA(INDEX('E:\format\[Project-08 AG AM attn 1-15 report.xlsx]sheet1 '!$G$10:$G$1048576,MATCH(1,($C7='E:\format\[Project-08 AG AM attn 1-15 report.xlsx]sheet1 '!$M$10:$M$1048576)*($H$5='E:\format\[Project-08 AG AM attn 1-15 report.xlsx]sheet1 '!$N$10:$N$1048576),0)),"")
+
+
+
+
+
+5. How to hide data in Excel
+
+select data >ctrl+1> custom> general delete write ;;;>ok=hide
+select data >ctrl+1> custom> general delete remove ;;;>ok=show
+
+
+
+
+6. How to merge data in Excel
+
+Power Query
+
+Data> Get Data> From Folder > Combain & Load > Select worksheet > Ok > Table Design > Convert to Range
+
+VSTACK
+
+=VSTACK('[Pharma Master Nov-23 - Copy.xlsx]DINAJPUR:GULSHAN'!$A$1:$H$200)
+
+Macros query-01 (all sheet to one sheet)
+
+Sub CopyFromWorksheets() 
+    Dim wrk As Workbook 'Workbook object - Always good to work with object variables
+    Dim sht As Worksheet 'Object for handling worksheets in loop
+    Dim trg As Worksheet 'Master Worksheet
+    Dim rng As Range 'Range object
+    Dim colCount As Integer 'Column count in tables in the worksheets
+     
+    Set wrk = ActiveWorkbook 'Working in active workbook
+     
+    For Each sht In wrk.Worksheets 
+        If sht.Name = "Master" Then 
+            MsgBox "There is a worksheet called as 'Master'." & vbCrLf & _ 
+            "Please remove or rename this worksheet since 'Master' would be" & _ 
+            "the name of the result worksheet of this process.", vbOKOnly + vbExclamation, "Error" 
+            Exit Sub 
+        End If 
+    Next sht 
+     
+     'We don't want screen updating
+    Application.ScreenUpdating = False 
+     
+     'Add new worksheet as the last worksheet
+    Set trg = wrk.Worksheets.Add(After:=wrk.Worksheets(wrk.Worksheets.Count)) 
+     'Rename the new worksheet
+    trg.Name = "Master" 
+     'Get column headers from the first worksheet
+     'Column count first
+    Set sht = wrk.Worksheets(1) 
+    colCount = sht.Cells(1, 255).End(xlToLeft).Column 
+     'Now retrieve headers, no copy&paste needed
+    With trg.Cells(1, 1).Resize(1, colCount) 
+        .Value = sht.Cells(1, 1).Resize(1, colCount).Value 
+         'Set font as bold
+        .Font.Bold = True 
+    End With 
+     
+     'We can start loop
+    For Each sht In wrk.Worksheets 
+         'If worksheet in loop is the last one, stop execution (it is Master worksheet)
+        If sht.Index = wrk.Worksheets.Count Then 
+            Exit For 
+        End If 
+         'Data range in worksheet - starts from second row as first rows are the header rows in all worksheets
+        Set rng = sht.Range(sht.Cells(2, 1), sht.Cells(65536, 1).End(xlUp).Resize(, colCount)) 
+         'Put data into the Master worksheet
+        trg.Cells(65536, 1).End(xlUp).Offset(1).Resize(rng.Rows.Count, rng.Columns.Count).Value = rng.Value 
+    Next sht 
+     'Fit the columns in Master worksheet
+    trg.Columns.AutoFit 
+     
+     'Screen updating should be activated
+    Application.ScreenUpdating = True 
+End Sub 
+
+Macros query-02 (all files to different sheet)
+
+Sub GetSheets()
+'Update ExcelJunction.com
+Path = ""
+Filename = Dir (Path & "*.xlsx")
+Do While Filename<>""
+Workbooks.open Filename:= Path & Filename, Readonly:=True
+For Each Sheet In ActiveWorkbook.sheets
+sheet.Copy After:=ThisWorkbook.sheets(1)
+Next Sheet
+Workbooks(Filename).Close
+Filename = Dir()
+Loop
+End Sub
+
+
+
+7. How to serial auto in Excel
+
+=subtotal(3,B$2:B2)
+=IF(ISBLANK(B2),"",COUNTA($B$2:B2))
+
+
+
+
+8. How to search specific text and count in Excel
+
+=SUM(LEN(B2:B49)-LEN(SUBSTITUTE(B2:B49,"Ancor","")))/LEN("Ancor")
+
+=COUNT(SEARCH("ancor",$B$1:$B$100))
+
+=SUMPRODUCT(H10:H2700*(ISNUMBER(SEARCH(K10,G10:G2700))))
+
+
+
+9. Hierarchy data create:
+
+Filter am data then equal another column, press shift for select all, press ctrl+G for blank, press enter
+
+
+
+10. Replace:
+
+Find what -*
+Replace with 
+
+
+
+11. FORMULA:
+
+=TOCOL (AUG! E5:AA52)
+=UNIQUE(A:A)
+=COUNTIF(A:A,B2)
+=LEFT(B2,6)
+=COUNT(SEARCH(I2,A:A)
+
+
+
+
+
+
+</xmp>
+<!-------------------------------->
+</div>
+</html>

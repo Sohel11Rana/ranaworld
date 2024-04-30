@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Style Attribute Experiment</title>
+</head>
+<body>
+<div>
+<div 
+style="width:1500px; height:20000px; background-color:
+pink; color: darkred; float: left; margin: 5px; padding:
+5px;">
+<!-------------------  Python Basic Code ----------------------------->
+
+<p>Python Basic Code</p>
+
+<xmp>
+ 
+
+Table create:
+
+import pandas as pd
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='F:\Abcd.xlsx'
+df1=pd.read_excel(path,sheet_name='Patients')
+df2=pd.read_excel(path,sheet_name='admissions')
+df3=pd.read_excel(path,sheet_name='doctors')
+df4=pd.read_excel(path,sheet_name='province names')
+
+#01
+first=pd.merge(df1,df4,on='province id',how='inner')
+join=first[['first name','last name','province name']]
+print(join)
+
+Top Brand Rx:
+import pandas as pd
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='D:\Data\Test-7.xlsx'
+df1=pd.read_excel(path,sheet_name='data')
+df2=pd.read_excel(path,sheet_name='mh')
+df3=pd.read_excel(path,sheet_name='Sheet3')
+pa=df2.rename(columns={'ParentCode':'id'})
+paa=pd.merge(pa,df3,on='id',how='right')
+pac=df1.rename(columns={'Territory':'Code'})
+df1['Code']=pac['Code'].str[:4]+'0'
+pew=pd.merge(df1,paa,on='Code',how='right')
+rbb=pd.pivot_table(pew,index='id',columns='BrandName',values='TotalRx',aggfunc='sum',fill_value=0)
+rbb['Total Rx']=rbb.sum(axis=1)
+rbb.loc['Total Rx']=rbb.sum()
+print(rbb[['Rabe','Vonofix','Omep','Emep','Afix','Total Rx']])
+
+Top Brand Rx Part 2
+
+import pandas as pd
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='F:\Test-8.xlsx'
+df1=pd.read_excel(path,sheet_name='data')
+df2=pd.read_excel(path,sheet_name='mh')
+df3=pd.read_excel(path,sheet_name='Sheet3')
+pa=df2.rename(columns={'ParentCode':'id'})
+paa=pd.merge(pa,df3,on='id',how='right')
+pac=df1.rename(columns={'Territory':'Code'})
+df1['Code']=pac['Code'].str[:4]+'0'
+pew=pd.merge(df1,paa,on='Code',how='right')
+rbb=pd.pivot_table(pew,index='id',columns='BrandName',values='TotalRx',aggfunc='sum',fill_value=0)
+rbb['Total Rx']=rbb.sum(axis=1)
+rbb.loc['Total Rx']=rbb.sum()
+print(rbb[['Rabe', 'Vonofix', 'Omep', 'Emep', 'Afix', 'Axim CV', 'Montril', 'Aroflo', 'Canalia', 'Rupa', 'Docopa', 'Ipralin','FossicalD', 'Neobion', 'Terbifin', 'Caspa', 'AZ', 'Optimox', 'Anfree', 'Mirovan', 'Anseng','Ginkgo-B','Goodbac-3S', 'Goodbac-SB', 'Hepamarin', 'Joinflex', 'Primrole', 'Arulina', 'Tocogel', 'Cutin','Total Rx']])
+##'Rabe', 'Vonofix', 'Omep', 'Emep', 'Afix', 'Axim CV', 'Montril', 'Aroflo', 'Canalia', 'Rupa', 'Docopa', 'Ipralin', 'FossicalD/DX', 'Neobion', 'Terbifin', 'Caspa', 'AZ', 'Optimox', 'Anfree', 'Mirovan', 'Fibosyl', 'Anseng', 'Ginkgo-B', 'Goodbac-3S', 'Goodbac-SB', 'Hepamarin', 'Joinflex', 'Primrole', 'Arulina', 'Tocogel', 'Cutin',
+
+
+result_path='D:\Data\TOP BRAND RX PHARMA 12.02.24.xlsx'
+rbb[['Rabe', 'Vonofix', 'Omep', 'Emep', 'Afix', 'Axim CV', 'Montril', 'Aroflo', 'Canalia', 'Rupa', 'Docopa', 'Ipralin','FossicalD', 'Neobion', 'Terbifin', 'Caspa', 'AZ', 'Optimox', 'Anfree', 'Mirovan', 'Anseng','Ginkgo-B','Goodbac-3S', 'Goodbac-SB', 'Hepamarin', 'Joinflex', 'Primrole', 'Arulina', 'Tocogel', 'Cutin','Total Rx']].to_excel(result_path,index=True)
+print(f"Results save to{result_path}")
+
+Day Start & End:
+import pandas as pd
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='F:\Daily_Attendance_16-28 Jan 2024 (ag).xls'
+df1=pd.read_excel(path,sheet_name='sheet1')
+df2=pd.read_excel(path,sheet_name='sheet2')
+uni=set(df2['name'])
+result_df=df1[df1['name'].isin(uni)]
+rb=pd.pivot_table(result_df,index='name',columns='Operation Date',values=['Start Time','End Time'],aggfunc='first')
+print(rb)
+result_path='D:\Data\Attendence7.xlsx'
+rb.to_excel(result_path,index=True)
+print(f"Results save to{result_path}")
+
+
+2
+
+
+import pandas as pd
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='F:\Daily_Attendance_dec23.xls'
+df1=pd.read_excel(path,sheet_name='sr1')
+df2=pd.read_excel(path,sheet_name='sr2')
+uni=set(df2['id'])
+result_df=df1[df1['id'].isin(uni)]
+# Assuming you have formatted the 'Start Time' and 'End Time' columns before
+result_df['Start Time'] = pd.to_datetime(result_df['Start Time']).dt.strftime('%H:%M:%S')
+result_df['End Time'] = pd.to_datetime(result_df['End Time']).dt.strftime('%H:%M:%S')
+rb=pd.pivot_table(result_df,index='id',columns='Operation Date',values=['Start Time','End Time'],aggfunc='first')
+print(rb)
+#result_path='D:\Data\Attendence6.xlsx'
+#rb.to_excel(result_path,index=True)
+#print(f"Results save to{result_path}")
+
+3.
+
+
+import pandas as pd
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+path='F:\Daily_Attendance_31 Jan 2024.xls'
+df1=pd.read_excel(path,sheet_name='sr1')
+df2=pd.read_excel(path,sheet_name='sr2')
+uni=set(df2['id'])
+
+
+result_df=df1[df1['id'].isin(uni)]
+result_df['Start Time'] =pd.to_datetime(result_df['Start Time']).dt.strftime('%H:%M:%S')
+result_df['End Time'] = pd.to_datetime(result_df['End Time']).dt.strftime('%H:%M:%S')
+rb=pd.pivot_table(result_df,index='id',columns='Operation Date',values=['Start Time','End Time'],aggfunc='first')
+
+count_between_9_to_12 = ((rb[['Start Time']] >= '09:01:00') & (rb[['Start Time']] <= '24:00:00')).sum(axis=1)
+
+rb['Count between 9 AM and 12 PM'] = count_between_9_to_12
+
+print(rb)
+
+result_path='D:\Data\Attendence 1-31 jan 24.xlsx'
+rb.to_excel(result_path,index=True)
+print(f"Results save to{result_path}")
+
+
+
+
+
+
+
+</xmp>
+<!-------------------------------->
+</div>
+</html>
